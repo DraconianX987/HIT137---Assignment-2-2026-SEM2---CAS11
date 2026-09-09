@@ -28,7 +28,6 @@ encryption = []
 for n in range(0, len(content)):
     encryption.append(content[n])
 
-print("\n")
 shift_performed = [] # Used to determine what step to perfrom during decryption to reverse encryption
 
 for e in range (0, len(encryption)): # Will not work for shift inputs of very large values, e.g. 1000
@@ -54,9 +53,46 @@ for e in range (0, len(encryption)): # Will not work for shift inputs of very la
         encryption[e] = chr(ascii_shift)
         shift_performed.append(5)
     else:
-        shift_performed.append("Nil") # Values appended to shift_performed correspond to the shifts laid out in assingment 2 instructions. "Nil" is used for "other" characters, whihch aren't shifted at all
+        shift_performed.append("Nil") # Values appended to shift_performed correspond to the shifts laid out in assingment 2 instructions. "Nil" is used for "other" characters, which aren't shifted at all
 
 encrypted_text = "".join(encryption)
+#print("\n", encrypted_text)
 
 with open("encrypted_text.txt", 'w') as f:
     f.write(encrypted_text)
+
+with open("encrypted_text.txt", 'r') as f:
+    content = f.read()
+
+encrypted_text_file = []
+
+for n in range(0, len(content)):
+    encrypted_text_file.append(content[n])
+
+decryption = []
+
+for d in range(0, len(encrypted_text_file)):
+    ascii_value = ord(encrypted_text_file[d])
+    if shift_performed[d] == 1:
+        ascii_shift = ascii_value - (shift1 * shift2)
+        decryption.append(chr(ascii_shift))
+    elif shift_performed[d] == 2:
+        ascii_shift = ascii_value + (shift1 + shift2)
+        decryption.append(chr(ascii_shift))
+    elif shift_performed[d] == 3:
+        ascii_shift = ascii_value + shift1
+        decryption.append(chr(ascii_shift))
+    elif shift_performed[d] == 4:
+        ascii_shift = ascii_value - shift2^2
+        decryption.append(chr(ascii_shift))
+    elif shift_performed[d] == 5:
+        ascii_shift = ascii_value - (shift1 - shift2)
+        decryption.append(chr(ascii_shift))
+    else:
+        decryption.append(encrypted_text_file[d]) # No transformation required. This line just appends the "other" characters to the decryption list
+
+decrypted_text = "".join(decryption)
+#print("\n", decrypted_text)
+
+with open("decrypted_text.txt", 'w') as f:
+    f.write(decrypted_text)
