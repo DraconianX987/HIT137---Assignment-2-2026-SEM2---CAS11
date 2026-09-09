@@ -56,7 +56,6 @@ for e in range (0, len(encryption)): # Will not work for shift inputs of very la
         shift_performed.append("Nil") # Values appended to shift_performed correspond to the shifts laid out in assingment 2 instructions. "Nil" is used for "other" characters, which aren't shifted at all
 
 encrypted_text = "".join(encryption)
-#print("\n", encrypted_text)
 
 with open("encrypted_text.txt", 'w') as f:
     f.write(encrypted_text)
@@ -71,7 +70,7 @@ for n in range(0, len(content)):
 
 decryption = []
 
-for d in range(0, len(encrypted_text_file)):
+for d in range(0, len(encrypted_text_file)): # Decryption performs the reverse of encryption after checking shift_performed
     ascii_value = ord(encrypted_text_file[d])
     if shift_performed[d] == 1:
         ascii_shift = ascii_value - (shift1 * shift2)
@@ -92,7 +91,17 @@ for d in range(0, len(encrypted_text_file)):
         decryption.append(encrypted_text_file[d]) # No transformation required. This line just appends the "other" characters to the decryption list
 
 decrypted_text = "".join(decryption)
-#print("\n", decrypted_text)
 
 with open("decrypted_text.txt", 'w') as f:
     f.write(decrypted_text)
+
+with open("raw_text.txt", 'r') as f:
+    raw_text = f.read()
+
+with open("decrypted_text.txt", 'r') as f:
+    decrypted_text_file = f.read()
+
+if raw_text == decrypted_text_file:
+    print("\nDecryption successful. Verified raw_text.txt == decrypted_text.txt")
+else:
+    print("\nDecryption failed. raw_text.txt != decrypted_text.txt")
